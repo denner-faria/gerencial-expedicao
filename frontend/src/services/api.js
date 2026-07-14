@@ -5,21 +5,11 @@ const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.request.use(config => {
-  const token = localStorage.getItem('@Expedicao:token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
 api.interceptors.response.use(
   response => response,
   error => {
     if (error.response && error.response.status === 401) {
-      // Se recebermos 401 (Não autorizado), o token expirou ou é inválido
-      localStorage.removeItem('@Expedicao:token');
-      localStorage.removeItem('@Expedicao:user');
+      // Se recebermos 401 (Não autorizado), o cookie expirou ou é inválido
       window.location.href = '/login';
     }
     return Promise.reject(error);

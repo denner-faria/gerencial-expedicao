@@ -24,10 +24,11 @@ const upload = multer({
     storage: storage,
     limits: { fileSize: 10 * 1024 * 1024 }, // Limite de 10MB por foto
     fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith('image/')) {
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+        if (allowedMimeTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
-            cb(new Error('Apenas imagens são permitidas!'), false);
+            cb(new Error('Apenas imagens (JPEG, PNG, WEBP) são permitidas!'), false);
         }
     }
 });

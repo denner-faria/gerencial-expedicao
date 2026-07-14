@@ -9,22 +9,25 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('@Expedicao:user');
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      socket.connect();
-    }
-    setLoading(false);
+    const fetchUser = async () => {
+      try {
+        const response = await api.get('/auth/me');
+        if (response.data && response.data.user) {
+          setUser(response.data.user);
+          socket.connect();
+        }
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
   }, []);
 
   const login = async (loginParam, password) => {
     const response = await api.post('/auth/login', { login: loginParam, password });
-    
-    const { user: userData, token } = response.data;
-    
-    localStorage.setItem('@Expedicao:user', JSON.stringify(userData));
-    localStorage.setItem('@Expedicao:token', token);
+    const { user: userData } = response.data;
     
     setUser(userData);
     socket.connect();
@@ -34,8 +37,6 @@ export const AuthProvider = ({ children }) => {
     try {
       await api.post('/auth/logout');
     } catch(err) {}
-    localStorage.removeItem('@Expedicao:user');
-    localStorage.removeItem('@Expedicao:token');
     setUser(null);
     socket.disconnect();
   };
@@ -43,7 +44,6 @@ export const AuthProvider = ({ children }) => {
   const updateUser = (newUserData) => {
     const updated = { ...user, ...newUserData };
     setUser(updated);
-    localStorage.setItem('@Expedicao:user', JSON.stringify(updated));
   };
 
   return (

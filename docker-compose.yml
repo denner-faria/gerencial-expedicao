@@ -25,10 +25,10 @@ services:
       - DB_PASSWORD=StrongPassword123!
       - DB_SERVER=db
       - DB_DATABASE=ExpedicaoDB
-      - JWT_SECRET=portfolio_jwt_secret_key_exemplo
-      - VAPID_PUBLIC_KEY=BHUBXmJDaJaA6YRkvrqxOGPf67MOsQmiPXN9ZipINVBGC6meFqDTMeBiNGNHDpOrxflurABLfbc5sa01FbrwfRU
-      - VAPID_PRIVATE_KEY=jjwveVW_0akz9zRQV0UD5skhW4lK1Fh6KlJPyWyJCzk
-      - VAPID_SUBJECT=mailto:portfolio@exemplo.com
+      - JWT_SECRET=${JWT_SECRET}
+      - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
+      - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
+      - VAPID_SUBJECT=${VAPID_SUBJECT}
       - NODE_TLS_REJECT_UNAUTHORIZED=0
     depends_on:
       db:

@@ -21,8 +21,7 @@ class AuthController {
 
             res.json({
                 message: 'Login realizado com sucesso.',
-                user,
-                token // Enviamos no body também para dar flexibilidade ao frontend (se preferir localstorage/memory)
+                user
             });
 
         } catch (error) {
@@ -50,6 +49,15 @@ class AuthController {
         } catch (error) {
             console.error('Erro ao alterar senha:', error);
             res.status(500).json({ message: 'Erro interno ao alterar a senha.' });
+        }
+    }
+
+    async me(req, res) {
+        try {
+            // req.user is populated by authMiddleware
+            res.json({ user: req.user });
+        } catch (error) {
+            res.status(401).json({ message: 'Não autorizado.' });
         }
     }
 }

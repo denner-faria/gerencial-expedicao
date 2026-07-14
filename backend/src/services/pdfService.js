@@ -91,8 +91,10 @@ class PdfService {
                 // If it's a relative URL to the static server, we need to convert it to a full local URL or Base64 so Puppeteer can read it.
                 // Assuming it might be a relative path like /uploads/signatures/xxx.png
                 try {
-                    const absPath = path.join(__dirname, '../../', assinaturaUrl);
-                    if (fs.existsSync(absPath)) {
+                    const absPath = path.resolve(__dirname, '../../', assinaturaUrl);
+                    const uploadsDir = path.resolve(__dirname, '../../uploads');
+                    
+                    if (absPath.startsWith(uploadsDir) && fs.existsSync(absPath)) {
                         const ext = path.extname(absPath).substring(1);
                         const b64 = fs.readFileSync(absPath, 'base64');
                         assinaturaUrl = `data:image/${ext};base64,${b64}`;
