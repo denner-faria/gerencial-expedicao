@@ -1,0 +1,43 @@
+services:
+  db:
+    build:
+      context: .
+      dockerfile: database/Dockerfile
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=StrongPassword123!
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "StrongPassword123!", "-d", "ExpedicaoDB", "-C", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - DB_USER=sa
+      - DB_PASSWORD=StrongPassword123!
+      - DB_SERVER=db
+      - DB_DATABASE=ExpedicaoDB
+      - JWT_SECRET=portfolio_jwt_secret_key_exemplo
+      - VAPID_PUBLIC_KEY=BHUBXmJDaJaA6YRkvrqxOGPf67MOsQmiPXN9ZipINVBGC6meFqDTMeBiNGNHDpOrxflurABLfbc5sa01FbrwfRU
+      - VAPID_PRIVATE_KEY=jjwveVW_0akz9zRQV0UD5skhW4lK1Fh6KlJPyWyJCzk
+      - VAPID_SUBJECT=mailto:portfolio@exemplo.com
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

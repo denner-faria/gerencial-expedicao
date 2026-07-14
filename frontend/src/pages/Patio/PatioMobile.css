@@ -1,0 +1,85 @@
+.patio-mobile-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px); /* 70px do Header */
+  background-color: var(--bg-color);
+  margin: -24px; /* Cancela o padding padrão do page-content para colar na borda */
+}
+
+/* Redefinição para mobile nativo */
+@media (max-width: 768px) {
+  .patio-mobile-container {
+    margin: -16px;
+    height: calc(100vh - 70px);
+  }
+}
+
+.patio-tabs {
+  display: flex;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tab-item.active {
+  color: var(--primary-red);
+  border-bottom-color: var(--primary-red);
+}
+
+.patio-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0;
+  background-color: #fff;
+}
+
+/* Estilo Base para os Cards do Pátio (Reaproveitado nas Tabs) */
+.mobile-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border-left: 5px solid var(--border-color);
+}
+
+.mobile-card.status-1 { border-left-color: #FFC107; } /* Aguardando */
+.mobile-card.status-2 { border-left-color: #17A2B8; } /* Carregando */
+.mobile-card.status-3 { border-left-color: #28A745; } /* Carregada */
+
+.card-header-mobile {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.carga-nome {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.carga-cliente {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

@@ -1,0 +1,7 @@
+# Set default behavior for all files
+* text=auto
+
+# Enforce LF for bash scripts and Docker-related files
+*.sh text eol=lf
+Dockerfile text eol=lf
+docker-compose.yml text eol=lf

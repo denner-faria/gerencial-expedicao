@@ -1,0 +1,35 @@
+{
+  "name": "expedicao-backend",
+  "version": "1.0.0",
+  "description": "Backend para o Sistema de Expedição",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/seed.js && node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.21",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "handlebars": "^4.7.9",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mssql": "^11.0.1",
+    "multer": "^2.2.0",
+    "pm2": "^7.0.3",
+    "puppeteer": "^25.3.0",
+    "socket.io": "^4.7.5",
+    "web-push": "^3.6.7",
+    "winston": "^3.13.0",
+    "xlsx": "^0.18.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

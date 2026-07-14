@@ -1,0 +1,30 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 260px; /* Largura da sidebar */
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Previne overflow de flex items */
+  transition: margin-left 0.3s ease;
+}
+
+.page-content {
+  padding: 24px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+  .page-content {
+    padding: 16px;
+  }
+}
