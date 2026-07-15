@@ -88,7 +88,7 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
   };
 
   const handleIniciarCarregamento = async () => {
-    if (!veiculoPortariaId && (!veiculoManual || !placaManual)) {
+    if (!carga.ID_Portaria && !veiculoPortariaId && (!veiculoManual || !placaManual)) {
       toast.error('Informe a Placa e Veículo ou vincule um veículo da portaria.');
       return;
     }
@@ -96,8 +96,8 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
     setSaving(true);
     try {
       // If portaria selected, bind it
-      let placaFinal = placaManual;
-      let veiculoFinal = veiculoManual;
+      let placaFinal = carga.Placa || placaManual;
+      let veiculoFinal = carga.Veiculo || veiculoManual;
       let portariaFinal = null;
 
       if (veiculoPortariaId) {
@@ -191,7 +191,15 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
     <div className="p-3">
       <div className="alert alert-warning border-warning">Esta carga está <strong>Aguardando</strong>. Preencha os dados do veículo para iniciar o carregamento.</div>
       
-      {veiculosPortaria.length > 0 && (
+      {carga.ID_Portaria ? (
+        <div className="mb-4">
+          <div className={`alert ${carga.Portaria_Status === 'Na Portaria' ? 'alert-warning' : carga.Portaria_Status === 'Aguardando Descida' ? 'alert-info' : 'alert-success'} d-flex flex-column mb-0 shadow-sm border`}>
+            <strong>Veículo Vinculado (Portaria):</strong> 
+            <span>Placa: {carga.Placa}</span>
+            <span>Status: {carga.Portaria_Status}</span>
+          </div>
+        </div>
+      ) : (
         <div className="mb-4">
           <label className="fw-bold mb-2">Vincular Veículo no Pátio (Portaria)</label>
           <select 
@@ -204,6 +212,7 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
             }}
           >
             <option value="">(Nenhum, inserir manualmente)</option>
+            {veiculosPortaria.length === 0 && <option value="" disabled>Nenhum veículo no pátio.</option>}
             {veiculosPortaria.map(v => (
               <option key={v.ID_Portaria} value={v.ID_Portaria}>
                 {v.Placa} - {v.Motorista} ({v.Veiculo})
@@ -213,7 +222,7 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
         </div>
       )}
 
-      {!veiculoPortariaId && (
+      {!veiculoPortariaId && !carga.ID_Portaria && (
         <div className="row g-3">
           <div className="col-12">
             <label className="fw-bold">Veículo *</label>
