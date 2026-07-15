@@ -57,7 +57,7 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
         api.get('/config-atrasos/motivos')
       ]);
       
-      setVeiculosPortaria(portariaRes.data.filter(v => v.Status === 'No Pátio'));
+      setVeiculosPortaria(portariaRes.data);
       setResponsabilidades(respRes.data.filter(r => r.Ativo));
       setMotivos(motivosRes.data.filter(m => m.Ativo));
 
@@ -349,7 +349,7 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
       {loading ? (
         <div className="p-5 text-center"><div className="spinner-border text-primary"></div></div>
       ) : carga ? (
-        <div className="d-flex flex-column h-100 pb-5">
+        <div className="d-flex flex-column pb-4" style={{ overflowY: 'auto' }}>
           
           {carga.ID_Status === 1 && renderAguardando()}
           {carga.ID_Status === 2 && renderCarregando()}
@@ -360,8 +360,18 @@ const CargaQuickAction = ({ show, onClose, cargaId, onOpenFullDrawer }) => {
              </div>
           )}
 
-          <div className="mt-4 px-3 mb-4">
+          <div className="mt-4 px-3 mb-4 d-flex flex-column gap-2">
              <hr className="text-muted" />
+             {carga.Arquivo_OF && (
+               <a 
+                 href={`${import.meta.env.VITE_API_URL || 'http://localhost:4000'}${carga.Arquivo_OF}`} 
+                 target="_blank" 
+                 rel="noreferrer" 
+                 className="btn btn-outline-primary w-100 fw-bold py-2 shadow-sm"
+               >
+                 Abrir PDF da OF
+               </a>
+             )}
              <button className="btn btn-light border-secondary text-secondary w-100 fw-bold py-2 shadow-sm" onClick={() => {
                onClose();
                onOpenFullDrawer(carga.ID_Carga);
