@@ -11,9 +11,11 @@ import AguardandoTab from './Tabs/AguardandoTab';
 import CarregandoTab from './Tabs/CarregandoTab';
 import CarregadaTab from './Tabs/CarregadaTab';
 import CargaDrawer from '../../features/kanban/components/CargaDrawer';
+import CargaQuickAction from '../../features/kanban/components/CargaQuickAction';
 
 const PatioMobile = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isQuickActionOpen, setIsQuickActionOpen] = useState(false);
   const [selectedCargaId, setSelectedCargaId] = useState(null);
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem('patioActiveTab') || 'aguardando';
@@ -26,7 +28,8 @@ const PatioMobile = () => {
 
   const handleOpenCarga = (idCarga) => {
     setSelectedCargaId(idCarga);
-    setIsDrawerOpen(true);
+    // Abre primeiro o QuickAction se estiver na listagem, exceto se quiser lógica específica
+    setIsQuickActionOpen(true);
   };
 
   const fetchCargas = async () => {
@@ -144,6 +147,17 @@ const PatioMobile = () => {
           </>
         )}
       </div>
+
+      <CargaQuickAction
+        show={isQuickActionOpen}
+        cargaId={selectedCargaId}
+        onClose={() => setIsQuickActionOpen(false)}
+        onOpenFullDrawer={(id) => {
+          setIsQuickActionOpen(false);
+          setSelectedCargaId(id);
+          setIsDrawerOpen(true);
+        }}
+      />
 
       <CargaDrawer 
         show={isDrawerOpen} 
